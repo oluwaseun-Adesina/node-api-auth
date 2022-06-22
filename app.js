@@ -16,7 +16,9 @@ const db = mongoose.connection;
 
 db.on("error", (err) =>{console.error(err);});
 db.once("open", ()=>{console.log("DB started successfully")})
-
+app.get('/', (req, res) => {
+    res.send('Welcome to the API');
+})
 
 app.listen(3000, () => {
   console.log('listening on port 3000');
