@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const User = require('../model/user');
 const bcrypt = require('bcrypt');
-const rounds = 10
+const rounds = 10;
 const middleware = require('../middleware');
 const dotenv = require('dotenv');
 dotenv.config();
@@ -14,19 +14,19 @@ const tokenSecret = process.env.TOKEN_SECRET;
 router.get('/login', (req, res) => {
     User.findOne({email: req.query.email})
     .then(user => {
-        if(!user) res.status(404).json({message: 'User not found'});
+        if(!user) res.status(404).json({error: 'User not found'});
         else {
-            bcrypt.compare(req.query.password, user.password, (err, result) => {
-                if(err) res.status(500).json(err);
+            bcrypt.compare(req.query.password, user.password, (error, result) => {
+                if(error) res.status(500).json(error);
                 else if(result) res.status(200).json({token: generateToken(user)});
-                else res.status(403).json({message: 'Invalid password'});
+                else res.status(403).json({error: 'Invalid password'});
             })
         }
     })
-    .catch(err => {
-        res.status(500).json(err);
+    .catch(error => {
+        res.status(500).json(error);
     })
-})
+});
 router.post('/signup', (req, res) => {
     bcrypt.hash(req.body.password, rounds, (err, hash) => {
         if (err) res.status(500).json(err);
