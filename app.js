@@ -2,6 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 const authRouter = require('./routes/auth');
+const port = process.env.PORT || 3000;
 
 const app = express();
 dotenv.config();
@@ -20,7 +21,7 @@ app.get('/', (req, res) => {
     res.send('Welcome to the API');
 })
 
-app.listen(3000, () => {
+app.listen(port, () => {
   console.log('listening on port 3000');
 })
    
